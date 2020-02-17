@@ -23,7 +23,7 @@ def add_student(student):
     query = reduce(lambda a, b: a & b, queries)
     res = student_db.search(query)
     if res:
-        return 'already exists', 409
+        raise ValueError
 
     doc_id = student_db.insert(student.to_dict())
     student.student_id = doc_id
