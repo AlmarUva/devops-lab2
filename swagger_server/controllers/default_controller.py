@@ -15,9 +15,17 @@ def add_student(body):  # noqa: E501
 
     :rtype: int
     """
+    #return 'thanks', 200
+    
     if connexion.request.is_json:
 
+        return "2'", 200
+
         json = connexion.request.get_json()
+
+        if not json:
+            return 'Invalid input', 405
+
         if "first_name" not in json.keys() or "last_name" not in json.keys():
             return 'Invalid input', 405
 
@@ -25,10 +33,10 @@ def add_student(body):  # noqa: E501
 
         try:
             student_service.add_student(student)
-            return student.first_name
+            return 'thanks', 200
         except ValueError:
             return 'already exists',409
-
+    
 
 
 
