@@ -19,7 +19,7 @@ def add_student(body):  # noqa: E501
     
     if connexion.request.is_json:
 
-        return "2", 200
+        return 2, 200
 
         json = connexion.request.get_json()
 
