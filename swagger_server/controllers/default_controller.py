@@ -3,7 +3,7 @@ import six
 
 from swagger_server.models.student import Student  # noqa: E501
 from swagger_server import util
-
+import swagger_server.service.student_service as student_service
 
 def add_student(body):  # noqa: E501
     """Add a new student
@@ -16,8 +16,20 @@ def add_student(body):  # noqa: E501
     :rtype: int
     """
     if connexion.request.is_json:
-        body = Student.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+        json = connexion.request.get_json()
+        if "first_name" not in json.keys() or "last_name" not in json.keys():
+            return 'Invalid input', 405
+
+        student = Student.from_dict(connexion.request.get_json())  # noqa: E501
+
+        try:
+            student_service.add_student(student)
+            return student.first_name
+        except ValueError:
+            return 'already exists',409
+
+
 
 
 def delete_student(student_id):  # noqa: E501
@@ -45,4 +57,7 @@ def get_student_by_id(student_id, subject=None):  # noqa: E501
 
     :rtype: Student
     """
-    return 'do some magic!'
+    try:
+        return student_service.get_student_by_id(student_id, subject)
+    except ValueError:
+        return 'invalid id',404
