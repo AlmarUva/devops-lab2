@@ -1,4 +1,8 @@
 {
-  "first_name": "Fr",
-  "last_name": "Q"
+  "first_name": "Frsd",
+  "last_name": "Qs",
+  "grades": {
+    "Bendicks": 0.3,
+    "Heinz" : 0
+  }
 }

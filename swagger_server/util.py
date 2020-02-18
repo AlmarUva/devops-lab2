@@ -2,6 +2,9 @@ import datetime
 
 import six
 import typing
+import logging
+
+logger = logging.Logger("catch_all")
 
 def _deserialize(data, klass):
     """Deserializes dict, list, str into an object.
@@ -24,8 +27,8 @@ def _deserialize(data, klass):
             return _deserialize_list(data, klass.__args__[0])
         if klass.__origin__ == dict:
             return _deserialize_dict(data, klass.__args__[1])
-        else:
-            return deserialize_model(data, klass)
+    else:
+      return deserialize_model(data, klass)
 
 
 def _deserialize_primitive(data, klass):
@@ -94,7 +97,11 @@ def deserialize_model(data, klass):
     :param klass: class literal.
     :return: model object.
     """
+    
+    
     instance = klass()
+    
+
 
     if not instance.swagger_types:
         return data

@@ -104,8 +104,9 @@ definitions:
       grades:
         type: "object"
         additionalProperties:
-          type: "number"
-          format: "float"
+          type: number
+          format: float
+          
     example:
       student_id: 0
       last_name: "last_name"
