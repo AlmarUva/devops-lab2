@@ -46,7 +46,7 @@ def get_student_by_id(student_id, subject):
 
 def get_student_by_query(first_name=None, last_name=None, subject=None, student_id=None):
     if student_id:
-        student = get_student_by_id(student_db, None)
+        student = student_db.get(doc_id=int(student_id))
         if not student:
             raise ValueError
         if student:
