@@ -26,8 +26,8 @@ def add_student(body):  # noqa: E501
         if "first_name" not in json.keys() or "last_name" not in json.keys():
             return 'Invalid input', 405
 
-        student = Student.from_dict(connexion.request.get_json())  # noqa: E501
-
+        student = Student.from_dict(json)  # noqa: E501
+        #raise Exception(str(student)) #use this as inband debugger
         try:
             s_id = student_service.add_student(student)
             return s_id, 200
@@ -48,8 +48,11 @@ def delete_student(student_id):  # noqa: E501
 
     :rtype: Student
     """
-    return 'do some magic!'
-
+    try:
+        student = student_service.delete_student(student_id)
+        return student
+    except ValueError:
+        return 'invalid id', 404
 
 def get_student_by_id(student_id, subject=None):  # noqa: E501
     """Find student by ID
@@ -64,6 +67,30 @@ def get_student_by_id(student_id, subject=None):  # noqa: E501
     :rtype: Student
     """
     try:
-        return student_service.get_student_by_id(student_id, subject)
+        student = student_service.get_student_by_id(student_id, subject)
+        return student
+        
     except ValueError:
         return 'invalid id',404
+
+def get_student_by_query(student_id=None, subject=None, first_name=None, last_name=None):  # noqa: E501
+    """Find student by query
+
+    Returns a single student # noqa: E501
+
+    :param student_id: ID of student to return
+    :type student_id: int
+    :param subject: The subject name
+    :type subject: str
+    :param first_name: The first name
+    :type first_name: str
+    :param last_name: The last name
+    :type last_name: str
+
+    :rtype: Student
+    """
+    try:
+        student = student_service.get_student_by_query(student_id=student_id, subject=subject, first_name=first_name, last_name=last_name)
+        return student
+    except ValueError:
+        return 'student not found',404
